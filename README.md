@@ -3,5 +3,5 @@
 
 # Run
 - `node install`
-- `node extract.js`
+- `node extract.js input.zip`
 - `node transform.js`
