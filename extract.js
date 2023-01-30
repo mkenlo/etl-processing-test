@@ -52,5 +52,5 @@
     await extract(input);
     await unzipJsonFiles();
 
-    
+
 }())
