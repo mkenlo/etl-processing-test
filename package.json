@@ -1,0 +1,15 @@
+{
+  "name": "etl-processing-test",
+  "version": "1.0.0",
+  "description": "small app to process inputs",
+  "main": " index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Melanie",
+  "license": "ISC",
+  "dependencies": {
+    "gunzip-file": "^0.1.1",
+    "node-stream-zip": "^1.15.0"
+  }
+}
