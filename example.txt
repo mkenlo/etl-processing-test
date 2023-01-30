@@ -1,1 +1,0 @@
-{"ts":1669976034680,"u":"https://www.example.com/xwd/egj?var4=62#x;nztmzc","e":[{"et":"ur"},{"et":"j","er":{"m":"general error","s":"call stack","l":37}},{"et":"v","p":["event1"]},{"et":"ur"},{"et":"j","er":{"m":"general error","s":"call stack","l":12}}]}

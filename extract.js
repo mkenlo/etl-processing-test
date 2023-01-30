@@ -1,31 +1,56 @@
 
 (async function () {
-    var fs = require('fs')
-    const StreamZip = require('node-stream-zip');
+
+    // Make sure we got a filename on the command line.
+    if (process.argv.length < 3) {
+        console.log('Usage: node ' + process.argv[1] + ' FILENAME');
+        process.exit(1);
+    }
+    const input = process.argv[2];
+
+    const fs = require('fs');
     const gunzip = require('gunzip-file');
-    const zip = new StreamZip.async({ file: "input.zip" });
+    const StreamZip = require('node-stream-zip');
+    const output = "output";
 
-    if (!fs.existsSync("tmp")) {
-        fs.mkdirSync("tmp")
+    if (!fs.existsSync(output)) {
+        fs.mkdirSync(output);
     }
-    const entries = await zip.entries();
-    for (const entry of Object.values(entries)) {
 
-        await zip.extract(entry.name, './tmp'); // extract in current dir
-        //let filename = entry.name.split('/')[1].split('.', 2);
-        //gunzip(`${filename.join('.')}`, `${filename[0]}.txt`); // unzip gzip file
+    let extract = async (file) => {
 
+        const zip = new StreamZip.async({ file: file });
+
+        if (!fs.existsSync("tmp")) {
+            fs.mkdirSync("tmp")
+        }
+        const entries = await zip.entries();
+        for (const entry of Object.values(entries)) {
+
+            await zip.extract(entry.name, './tmp');
+
+        }
+        await zip.close();
+        console.log("extract successfull...")
     }
-    await zip.close();
-    fs.readdirSync('tmp').map(entry => {
-        let filename = entry.split('.', 2);
-        console.log(filename)
-        gunzip(entry, `${filename[0]}.txt`, function () {
-            console.log("extract done")
-        }); // unzip gzip file
-    });
 
+    let unzipJsonFiles = async () => {
+        fs.readdirSync('tmp').map(entry => {
+            let filename = entry.split('.', 2);
+            gunzip(`./tmp/${entry}`, `./tmp/${filename[0]}.txt`);
+
+        });
+        //  cleanup : remove all gzip files
+        /*     fs.readdirSync('tmp').map(entry => {
+                fs.unlinkSync(`./tmp/${entry}`)
+            }); */
+        console.log("unzip all files successfull...")
+    }
+
+
+
+    await extract(input);
+    await unzipJsonFiles();
+
+    
 }())
-
-
-
